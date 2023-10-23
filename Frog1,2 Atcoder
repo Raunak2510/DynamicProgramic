@@ -1,0 +1,56 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+const int N=1e5;
+int dp[N];
+int dp2[N];
+int h[N];
+int k;
+int func(int i){
+    if(i==0){
+        return 0;
+    }
+   int cost=INT_MAX;
+     if(dp[i]!=-1){
+        return dp[i];
+     }
+     for(int j=1; j<=k; j++){
+        if(i-j>=0)
+   cost=min(cost, func(i-j)+abs(h[i]-h[i-j]));
+   
+}
+
+   
+   return dp[i]=cost;
+}
+ 
+ int func2(int i){
+        dp2[0]=0;
+        
+        dp2[1]=min(abs(h[1]-h[0]), abs(h[2]-h[0]));
+       int cost=dp2[1];
+        for(int j=2; j<=i; j++  ){
+            dp2[j]=min(abs(h[j]-h[j-1]),abs(h[j]-h[j-2]));
+            if(cost<dp2[j]){
+                cost=dp2[j];
+            }
+        }
+        // for(int j=0; j<=i; j++){
+        //     cout<<dp2[j]<<" ";
+        // } cout<<endl;
+        // cout<<i<<endl;
+        // cout<<cost<<endl;
+        return dp2[i]+cost;
+ }
+int main(){
+    memset(dp,-1,sizeof(dp)); // this only set -1
+    memset(dp2,-1,sizeof(dp2));
+    int n;
+    cin>>n>>k;
+    for(int i=0; i<n; i++){
+        cin>>h[i];
+    }
+    cout<<func(n-1);
+    return 0;
+}
